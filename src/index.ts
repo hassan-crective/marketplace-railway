@@ -39,7 +39,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://germanguestpost.com",
-      "https://marketplacefrontend-production.up.railway.app/"
+      "https://germanfrontrailway-production.up.railway.app"
 
     ],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
