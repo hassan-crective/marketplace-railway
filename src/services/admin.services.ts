@@ -5,7 +5,6 @@ import {
   RejectProductInput,
   UpdateUserDetail,
 } from "../validators/admin.validation";
-import { auth, JWT } from 'google-auth-library';
 import {
   UserRepository,
   ProductRepository,
@@ -1245,19 +1244,17 @@ export const getPublishersStats = async (userId: string) => {
 
 export const getProductsFromGoogleSheet = async (sheetId: string, user: User) => {
   try {
- const creds = JSON.parse(
-  process.env.GOOGLE_CREDENTIALS!.replace(/\\(.)/g, '$1')
-);
-
-const client = new JWT({
-  email: creds.client_email,
-  key: creds.private_key,
-  scopes: ['https://www.googleapis.com/auth/spreadsheets']
-});
-
-await client.authorize(); // Explicit auth call
-console.log('Client:',client)
-  
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        type: "service_account",
+        project_id: process.env.GOOGLE_PROJECT_ID,
+        private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
+        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+        client_email: process.env.GOOGLE_CLIENT_EMAIL,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+      },
+      scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+    });
 
     const sheets = google.sheets({ version: "v4", auth });
 
@@ -1274,8 +1271,8 @@ console.log('Client:',client)
 
     const products = rows.slice(1).map((row) => {
       const price = parseFloat(row[1]) || 0;
-      const linkType = row[12] === "Do Follow" ? Others.linkType.DO_FOLLOW : Others.linkType.NO_FOLLOW;
-      const ratingsValue = parseFloat(row[16]) || 0;
+      const linkType =
+        row[12] === "Do Follow" ? Others.linkType.DO_FOLLOW : Others.linkType.NO_FOLLOW;
 
       return {
         siteName: row[0],
