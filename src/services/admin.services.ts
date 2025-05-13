@@ -1245,7 +1245,7 @@ export const getPublishersStats = async (userId: string) => {
 export const getProductsFromGoogleSheet = async (sheetId: string, user: User) => {
   try {
     const auth = new google.auth.GoogleAuth({
-      keyFile: "./src/market-place-451713-8e4211dec57c.json",
+      credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS!),
       scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
     });
 
