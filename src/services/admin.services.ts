@@ -1249,6 +1249,8 @@ export const getProductsFromGoogleSheet = async (sheetId: string, user: User) =>
   scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 
+console.log('Service account email:', 
+  JSON.parse(process.env.GOOGLE_CREDENTIALS!).client_email);
 
     const sheets = google.sheets({ version: "v4", auth });
 
