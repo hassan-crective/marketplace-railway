@@ -5,6 +5,7 @@ import {
   RejectProductInput,
   UpdateUserDetail,
 } from "../validators/admin.validation";
+import { auth, JWT } from 'google-auth-library';
 import {
   UserRepository,
   ProductRepository,
@@ -1244,13 +1245,19 @@ export const getPublishersStats = async (userId: string) => {
 
 export const getProductsFromGoogleSheet = async (sheetId: string, user: User) => {
   try {
-  const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS!),
+ const creds = JSON.parse(
+  process.env.GOOGLE_CREDENTIALS!.replace(/\\(.)/g, '$1')
+);
+
+const client = new JWT({
+  email: creds.client_email,
+  key: creds.private_key,
   scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 
-console.log('Service account email:', 
-  JSON.parse(process.env.GOOGLE_CREDENTIALS!).client_email);
+await client.authorize(); // Explicit auth call
+console.log('Client:',client)
+  
 
     const sheets = google.sheets({ version: "v4", auth });
 
