@@ -1,0 +1,59 @@
+# Ignore build output
+build/
+dist/
+out/
+
+# Ignore dependencies
+node_modules/
+vendor/
+
+# Ignore environment-specific files
+.env
+.env.local
+.env.*.local
+
+# Ignore logs and cache files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+
+# Ignore OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Me messing around
+test.ts
+
+# Ignore compiled files
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Ignore database files
+*.sqlite
+*.db
+*.db-journal
+
+# Ignore generated files
+*.bak
+*.swp
+*.tmp
+*.temp
+
+# Ignore miscellaneous files
+*.bak
+*.swp
+*.tmp
+*.temp
+
+*.json
